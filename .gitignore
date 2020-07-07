@@ -1,0 +1,4 @@
+.*
+!.gitignore
+Java/target/
+*.iml
