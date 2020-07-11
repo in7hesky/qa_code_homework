@@ -8,7 +8,7 @@ public class MainTaskThree {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter a number of values to output: ");
+        System.out.println("Enter the number of values to output: ");
         int valuesAmount = input.nextInt();
 
         printValues(valuesAmount);
