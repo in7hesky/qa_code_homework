@@ -10,7 +10,7 @@ public class MainTaskOne {
         Scanner input = new Scanner(System.in);
         String username = input.next();
 
-        if (!username.matches("^[a-zA-Z]+$")) {
+        if (!username.matches("^\\p{Alpha}+$")) {
             throw new RuntimeException("Only letters are allowed.");
         } else {
             System.out.println("Welcome, " + username + "!");
