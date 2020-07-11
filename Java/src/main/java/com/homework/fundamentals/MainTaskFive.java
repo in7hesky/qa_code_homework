@@ -10,56 +10,58 @@ import static java.lang.System.exit;
 public class MainTaskFive {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+
         System.out.println("Input month's number: ");
-        int month = 0;
+        int monthNumInput = 0;
         try  {
-            month = input.nextInt();
+            monthNumInput = input.nextInt();
         } catch (InputMismatchException e) {
             System.out.println("Integer required.");
             exit(2);
         }
 
-
-        switch (month) {
+        String guessResult;
+        switch (monthNumInput) {
             case 1:
-                System.out.println("Jan");
+                guessResult = "Jan";
                 break;
             case 2:
-                System.out.println("Feb");
+                guessResult = "Feb";
                 break;
             case 3:
-                System.out.println("Mar");
+                guessResult = "Mar";
                 break;
             case 4:
-                System.out.println("Apr");
+                guessResult = "Apr";
                 break;
             case 5:
-                System.out.println("May");
+                guessResult = "May";
                 break;
             case 6:
-                System.out.println("Jun");
+                guessResult = "Jun";
                 break;
             case 7:
-                System.out.println("Jul");
+                guessResult = "Jul";
                 break;
             case 8:
-                System.out.println("Aug");
+                guessResult = "Aug";
                 break;
             case 9:
-                System.out.println("Sep");
+                guessResult = "Sep";
                 break;
             case 10:
-                System.out.println("Oct");
+                guessResult = "Oct";
                 break;
             case 11:
-                System.out.println("Nov");
+                guessResult = "Nov";
                 break;
             case 12:
-                System.out.println("Dec");
+                guessResult = "Dec";
                 break;
             default:
-                System.out.println("No such month.");
+                guessResult = "No such month.";
         }
+        System.out.println(guessResult);
     }
 
 
