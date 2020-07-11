@@ -11,12 +11,20 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class OptionalTaskOne {
-    public static String[] numbers;
+    private static String[] numbers;
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         System.out.println("The number of values to input: ");
-        numbers = new String[input.nextInt()];
+
+        while(true) {
+            numbers = new String[input.nextInt()];
+            if(numbers.length != 0) {
+                break;
+            } else {
+                System.out.println("The array must contain one value at least:");
+            }
+        }
 
         //init int values in string format
         System.out.println("Input integers:");
@@ -84,12 +92,11 @@ public class OptionalTaskOne {
         int minDigitsAmount = 0;
         String minDigitsNumber = "";
 
-        for (int i = 0; i < numbers.length; i++) {
-            String num = numbers[i];
+        for (String num : numbers) {
             Set<Character> charSet = new HashSet<>();
             StringBuilder uniqDigits = new StringBuilder();
 
-            //set can contain only unique elements
+            //filter unique digits through the set
             for (int j = 0; j < num.length(); j++) {
                 charSet.add(num.charAt(j));
             }
