@@ -1,6 +1,5 @@
 package Planes;
 //DONE
-import models.PlaneType;
 
 import java.util.Objects;
 

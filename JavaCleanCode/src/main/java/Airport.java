@@ -1,9 +1,7 @@
-import Planes.ExperimentalPlane;
 import models.MilitaryType;
 import Planes.MilitaryPlane;
 import Planes.PassengerPlane;
 import Planes.Plane;
-import models.PlaneType;
 
 import java.util.*;
 
@@ -15,38 +13,18 @@ public class Airport {
         this.planes = planes;
     }
 
-    public List<PassengerPlane> getPassengerPlanes() {
-        List<PassengerPlane> passengerPlanes = new ArrayList<>();
+    public <T extends Plane> List<T> getPlanesByType(Class<T> claz) {
+        List<T> result = new ArrayList<>();
         for (Plane plane : planes) {
-            if (plane instanceof PassengerPlane) {
-                passengerPlanes.add((PassengerPlane) plane);
+            if (claz.isInstance(plane)) {
+                result.add(claz.cast(plane));
             }
         }
-        return passengerPlanes;
-    }
-
-    public List<MilitaryPlane> getMilitaryPlanes() {
-        List<MilitaryPlane> militaryPlanes = new ArrayList<>();
-        for (Plane plane : planes) {
-            if (plane instanceof MilitaryPlane) {
-                militaryPlanes.add((MilitaryPlane) plane);
-            }
-        }
-        return militaryPlanes;
-    }
-
-    public List<ExperimentalPlane> getExperimentalPlanes() {
-        List<ExperimentalPlane> experimentalPlanes = new ArrayList<>();
-        for (Plane plane : planes) {
-            if (plane instanceof ExperimentalPlane) {
-                experimentalPlanes.add((ExperimentalPlane) plane);
-            }
-        }
-        return experimentalPlanes;
+        return result;
     }
 
     public PassengerPlane getPassengerPlaneWithMaxPassengersCapacity() {
-        List<PassengerPlane> passengerPlanes = getPassengerPlanes();
+        List<PassengerPlane> passengerPlanes = getPlanesByType(PassengerPlane.class);
         PassengerPlane planeWithMaxCapacity = passengerPlanes.get(0);
         for (PassengerPlane passengerPlane : passengerPlanes) {
             if (passengerPlane.getPassengersCapacity() > planeWithMaxCapacity.getPassengersCapacity()) {
@@ -59,7 +37,7 @@ public class Airport {
 
     public List<MilitaryPlane> getMilitaryPlanesByModelType(MilitaryType modelType) {
         List<MilitaryPlane> militaryModelTypeArray = new ArrayList<>();
-        List<MilitaryPlane> militaryPlanes = getMilitaryPlanes();
+        List<MilitaryPlane> militaryPlanes = getPlanesByType(MilitaryPlane.class);
 
         for (MilitaryPlane militaryPlane : militaryPlanes) {
             if (militaryPlane.getType() == modelType) {
@@ -89,7 +67,7 @@ public class Airport {
         return planes;
     }
 
-    private void print(Collection<? extends Plane> collection) {
+    private void printPlanes(Collection<? extends Plane> collection) {
         for (Plane plane : collection) {
             System.out.println(plane);
         }
