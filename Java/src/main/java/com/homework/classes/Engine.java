@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+// ------------ УСЛОВИЕ ------------
+//3. Patient: id, Фамилия, Имя, Отчество, Адрес, Телефон, Номер медицинской карты, Диагноз.
+//Создать массив объектов. Вывести:
+//a) список пациентов, имеющих данный диагноз;
+//b) список пациентов, номер медицинской карты которых находится в заданном интервале.
 
 public class Engine {
     private static ArrayList<Patient> patientsList = new ArrayList<>();
