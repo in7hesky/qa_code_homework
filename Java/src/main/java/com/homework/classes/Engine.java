@@ -1,6 +1,7 @@
 package com.homework.classes;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -60,10 +61,71 @@ public class Engine {
     }
 
     private static void printByDiagnosis() {
+        String [] uniqueConditions = getUniqueConditionsArray();
+
+        System.out.println("CHOOSE FROM AVAILABLE CONDITIONS:");
+        for (int i = 0; i < uniqueConditions.length; i++) {
+            System.out.println( i+1 + ". " + uniqueConditions[i]);
+        }
+
+        String chosenConditionName;
+        try {
+            int conditionChoice = new Scanner(System.in).nextInt();
+            chosenConditionName = uniqueConditions[conditionChoice - 1];
+        } catch (Exception e) {
+            System.out.println("Wrong input.");
+            return;
+        }
+
+        for (Patient p: patientsList) {
+            if (p.getDiagnosis().equals(chosenConditionName))
+                printPatientInfo(p);
+        }
 
     }
 
-    private static void printByMedicalCardRange() {
+    private static String[] getUniqueConditionsArray() {
+        HashSet<String> conditionsFilter = new HashSet<>();
+        for (Patient patient: patientsList) {
+            conditionsFilter.add(patient.getDiagnosis());
+        }
+        String [] uniqueConditions = new String [conditionsFilter.size()];
+        conditionsFilter.toArray(uniqueConditions);
 
+        return uniqueConditions;
+    }
+
+    private static void printByMedicalCardRange() {
+        System.out.println("AVAILABLE MEDCARD NUMBERS\n[FOR THE FEATURE TESTING CONVENIENCE]: ");
+        for (Patient p: patientsList) {
+            System.out.println(p.getMedicalCardNumber());
+        }
+        Scanner userInput = new Scanner(System.in);
+        int lowerBound;
+        int upperBound;
+        try {
+            System.out.println("Input lowerBound [inclusive]:");
+            lowerBound = userInput.nextInt();
+            System.out.println("Input upperBound [inclusive]:");
+            upperBound = userInput.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Digital bounds only.");
+            return;
+        }
+
+        for (Patient p: patientsList) {
+            if (p.getMedicalCardNumber() >= lowerBound &&
+                    p.getMedicalCardNumber() <= upperBound ) {
+                printPatientInfo(p);
+            }
+        }
+    }
+
+    private static void printPatientInfo(Patient p) {
+        System.out.println("---PATIENTS_INFO---");
+        System.out.println(String.format("Id: %d\nMedCard: %d\n" +
+                "Name: %s\nSurname: %s\nLocation: %s\n" +
+                "Phone Number: %s", p.getId(), p.getMedicalCardNumber(),
+                p.getName(), p.getSurname(), p.getHomeAddress(), p.getPhoneNumber()));
     }
 }

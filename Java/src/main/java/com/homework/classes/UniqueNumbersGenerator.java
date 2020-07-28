@@ -7,6 +7,9 @@ import java.util.Collections;
 //MEDICAL CARDS NUMS TRACKER
 public class UniqueNumbersGenerator {
 
+    //------------------------------------------
+    // CONFIGURE BOUNDS TO ADD MORE PATIENTS!!!!
+    //------------------------------------------
     private static final int LOWER_BOUND = 15;
     private static final int UPPER_BOUND = 35;
 
