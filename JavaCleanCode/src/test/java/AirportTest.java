@@ -40,7 +40,7 @@ public class AirportTest {
 
     @Test
     public void testHasAtLeastOneBomberInMilitaryPlanes() {
-        Assert.assertTrue(airport.getMilitaryPlanesByModelType(MilitaryTypes.BOMBER).size() > 0);
+        Assert.assertFalse(airport.getMilitaryPlanesByModelType(MilitaryTypes.BOMBER).isEmpty());
     }
 
     @Test
