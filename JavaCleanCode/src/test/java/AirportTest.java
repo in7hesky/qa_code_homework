@@ -45,7 +45,7 @@ public class AirportTest {
 
     @Test
     public void testExperimentalPlanesHasClassificationLevelHigherThanUnclassified(){
-        List<ExperimentalPlane> experimentalPlanes = airport.getPlanesByType(ExperimentalPlane.class);
+        List<ExperimentalPlane> experimentalPlanes = airport.getPlanesIfInstanceOf(ExperimentalPlane.class);
 
         for(ExperimentalPlane experimentalPlane : experimentalPlanes)
             Assert.assertNotSame(experimentalPlane.getClassificationLevel(), ClassificationLevel.UNCLASSIFIED);

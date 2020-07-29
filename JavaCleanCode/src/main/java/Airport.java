@@ -13,37 +13,33 @@ public class Airport {
         this.planes = planes;
     }
 
-    public <T extends Plane> List<T> getPlanesByType(Class<T> claz) {
-        List<T> result = new ArrayList<>();
-        for (Plane plane : planes) {
-            if (claz.isInstance(plane)) {
-                result.add(claz.cast(plane));
-            }
-        }
-        return result;
+    public <T extends Plane> List<T> getPlanesIfInstanceOf(Class<T> subclass) {
+        List<T> planesAreInstancesOfSubclass = new ArrayList<>();
+        for (Plane plane : planes)
+            if (subclass.isInstance(plane))
+                planesAreInstancesOfSubclass.add(subclass.cast(plane));
+
+        return planesAreInstancesOfSubclass;
     }
 
     public PassengerPlane getPassengerPlaneWithMaxPassengersCapacity() {
-        List<PassengerPlane> passengerPlanes = getPlanesByType(PassengerPlane.class);
+        List<PassengerPlane> passengerPlanes = getPlanesIfInstanceOf(PassengerPlane.class);
         PassengerPlane planeWithMaxCapacity = passengerPlanes.get(0);
-        for (PassengerPlane passengerPlane : passengerPlanes) {
-            if (passengerPlane.getPassengersCapacity() > planeWithMaxCapacity.getPassengersCapacity()) {
+
+        for (PassengerPlane passengerPlane : passengerPlanes)
+            if (passengerPlane.getPassengersCapacity() > planeWithMaxCapacity.getPassengersCapacity())
                 planeWithMaxCapacity = passengerPlane;
-            }
-        }
 
         return planeWithMaxCapacity;
     }
 
     public List<MilitaryPlane> getMilitaryPlanesByModelType(MilitaryType modelType) {
         List<MilitaryPlane> militaryModelTypeArray = new ArrayList<>();
-        List<MilitaryPlane> militaryPlanes = getPlanesByType(MilitaryPlane.class);
+        List<MilitaryPlane> militaryPlanes = getPlanesIfInstanceOf(MilitaryPlane.class);
 
-        for (MilitaryPlane militaryPlane : militaryPlanes) {
-            if (militaryPlane.getType() == modelType) {
+        for (MilitaryPlane militaryPlane : militaryPlanes)
+            if (militaryPlane.getType() == modelType)
                 militaryModelTypeArray.add(militaryPlane);
-            }
-        }
 
         return militaryModelTypeArray;
     }
