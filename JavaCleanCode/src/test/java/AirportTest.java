@@ -3,7 +3,7 @@ import Planes.MilitaryPlane;
 import Planes.PassengerPlane;
 import Planes.Plane;
 import models.ClassificationLevel;
-import models.MilitaryType;
+import models.MilitaryTypes;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -15,10 +15,10 @@ public class AirportTest {
 
     @Test
     public void testGetTransportMilitaryPlanes() {
-        List<MilitaryPlane> transportMilitaryPlanes = airport.getMilitaryPlanesByModelType(MilitaryType.TRANSPORT);
+        List<MilitaryPlane> transportMilitaryPlanes = airport.getMilitaryPlanesByModelType(MilitaryTypes.TRANSPORT);
 
         for (MilitaryPlane militaryPlane : transportMilitaryPlanes)
-            Assert.assertSame(militaryPlane.getType(), MilitaryType.TRANSPORT);
+            Assert.assertSame(militaryPlane.getType(), MilitaryTypes.TRANSPORT);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class AirportTest {
 
     @Test
     public void testHasAtLeastOneBomberInMilitaryPlanes() {
-        Assert.assertTrue(airport.getMilitaryPlanesByModelType(MilitaryType.BOMBER).size() > 0);
+        Assert.assertTrue(airport.getMilitaryPlanesByModelType(MilitaryTypes.BOMBER).size() > 0);
     }
 
     @Test

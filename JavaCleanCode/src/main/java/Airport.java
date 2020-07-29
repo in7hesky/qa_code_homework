@@ -1,4 +1,4 @@
-import models.MilitaryType;
+import models.MilitaryTypes;
 import Planes.MilitaryPlane;
 import Planes.PassengerPlane;
 import Planes.Plane;
@@ -33,7 +33,7 @@ public class Airport {
         return planeWithMaxCapacity;
     }
 
-    public List<MilitaryPlane> getMilitaryPlanesByModelType(MilitaryType modelType) {
+    public List<MilitaryPlane> getMilitaryPlanesByModelType(MilitaryTypes modelType) {
         List<MilitaryPlane> militaryModelTypeArray = new ArrayList<>();
         List<MilitaryPlane> militaryPlanes = getPlanesIfInstanceOf(MilitaryPlane.class);
 
