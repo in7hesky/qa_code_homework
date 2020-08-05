@@ -2,7 +2,7 @@ package com.homework.collections.main;
 
 import com.homework.collections.main.devices.Device;
 import com.homework.collections.main.devices.LargeDevice;
-import com.homework.collections.main.devices.NormalDevice;
+import com.homework.collections.main.devices.CompactDevice;
 import com.homework.collections.main.environment.House;
 import com.homework.collections.main.environment.Socket;
 
@@ -17,11 +17,11 @@ public class Runner {
         house.addNewDevice(new LargeDevice("TV", 175, 20, Manufacturer.JAPAN, 2));
         house.addNewDevice(new LargeDevice("Washer", 140, 30, Manufacturer.CHINA, 3));
 
-        house.addNewDevice(new NormalDevice("Controller", 40, 4,
+        house.addNewDevice(new CompactDevice("Controller", 40, 4,
                 Manufacturer.JAPAN, true));
-        house.addNewDevice(new NormalDevice("Table_Lamp", 15, 30,
+        house.addNewDevice(new CompactDevice("Table_Lamp", 15, 30,
                 Manufacturer.BELARUS, false));
-        house.addNewDevice(new NormalDevice("Laptop", 300, 30,
+        house.addNewDevice(new CompactDevice("Laptop", 300, 30,
                 Manufacturer.JAPAN, false));
 
         printHouseStatistics(house);

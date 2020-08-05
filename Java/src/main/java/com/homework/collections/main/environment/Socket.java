@@ -1,7 +1,7 @@
 package com.homework.collections.main.environment;
 
 import com.homework.collections.main.devices.Device;
-import com.homework.collections.main.devices.NormalDevice;
+import com.homework.collections.main.devices.CompactDevice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class Socket {
     }
 
     public boolean connectDevice(Device deviceToConnect) {
-        if (!(deviceToConnect instanceof NormalDevice && ((NormalDevice) deviceToConnect).isOnBatteries()) &&
+        if (!(deviceToConnect instanceof CompactDevice && ((CompactDevice) deviceToConnect).isOnBatteries()) &&
                 totalConsumption + deviceToConnect.getConsumption() <= CONSUMPTION_LIMIT && !deviceToConnect.isOn()) {
             deviceToConnect.setStage(true);
             this.totalConsumption += deviceToConnect.getConsumption();

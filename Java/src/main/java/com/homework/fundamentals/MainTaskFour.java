@@ -4,8 +4,8 @@ package com.homework.fundamentals;
 // подсчитать их сумму (произведение) и вывести результат на консоль.
 public class MainTaskFour {
     public static void main(String [] args) {
-        int sum = 0;
-        int product = 0;
+        int argsSum = 0;
+        int argsProduct = 0;
 
         //getting copied int args[]
         int[] intArgs = new int[args.length];
@@ -14,12 +14,12 @@ public class MainTaskFour {
         }
 
         for (int i = 0; i < intArgs.length; i++) {
-            sum += intArgs[i];
-            product = (i == 0) ? intArgs[0] : (product * intArgs[i]);
+            argsSum += intArgs[i];
+            argsProduct = (i == 0) ? intArgs[0] : (argsProduct * intArgs[i]);
         }
 
         System.out.println(String.format(
-                "The sum is: %d\nThe product is: %d", sum, product));
+                "The argsSum is: %d\nThe argsProduct is: %d", argsSum, argsProduct));
     }
 
 }

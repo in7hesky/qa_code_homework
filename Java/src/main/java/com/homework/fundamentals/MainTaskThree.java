@@ -7,22 +7,21 @@ import java.util.Scanner;
 public class MainTaskThree {
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        Scanner userInput = new Scanner(System.in);
         System.out.println("Enter the number of values to output: ");
-        int valuesAmount = input.nextInt();
 
-        printValues(valuesAmount);
+        printRandomValuesVerticallyAndHorizontally(userInput.nextInt());
     }
 
-    public static void printValues(int amount) {
-        Random randomGen = new Random();
-        //prints vertically
-        for (int i = 0; i < amount; i++) {
-            System.out.println(randomGen.nextInt(10));
+    public static void printRandomValuesVerticallyAndHorizontally(int valuesAmount) {
+        Random randomGenerator = new Random();
+        System.out.println("VERTICALLY:");
+        for (int i = 0; i < valuesAmount; i++) {
+            System.out.println(randomGenerator.nextInt(10));
         }
-        //prints horizontally
-        for (int i = 0; i < amount; i++) {
-            System.out.print(randomGen.nextInt(10));
+        System.out.println("HORIZONTALLY:");
+        for (int i = 0; i < valuesAmount; i++) {
+            System.out.print(randomGenerator.nextInt(10));
         }
     }
 
