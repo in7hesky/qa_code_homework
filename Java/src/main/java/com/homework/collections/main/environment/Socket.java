@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Socket {
-    public static final int CONSUMPTION_LIMIT = 100;
+    public static final int CONSUMPTION_LIMIT = 60;
 
     private int totalConsumption = 0;
     private List<Device> pluggedDevices = new ArrayList<>();
@@ -21,17 +21,13 @@ public class Socket {
     }
 
     public boolean connectDevice(Device deviceToConnect) {
-        if (deviceToConnect instanceof NormalDevice)
-            if (((NormalDevice) deviceToConnect).isOnBatteries())
-                return false;
-
-        if (totalConsumption + deviceToConnect.getConsumption() < CONSUMPTION_LIMIT && !deviceToConnect.isOn()) {
+        if (!(deviceToConnect instanceof NormalDevice && ((NormalDevice) deviceToConnect).isOnBatteries()) &&
+                totalConsumption + deviceToConnect.getConsumption() <= CONSUMPTION_LIMIT && !deviceToConnect.isOn()) {
             deviceToConnect.setStage(true);
-            totalConsumption += deviceToConnect.getConsumption();
+            this.totalConsumption += deviceToConnect.getConsumption();
             this.pluggedDevices.add(deviceToConnect);
             return true;
         }
-
         return false;
     }
 

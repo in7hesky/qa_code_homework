@@ -20,12 +20,14 @@ public class House {
     }
 
     public void addNewDevice(Device device) {
-        if (device instanceof LargeDevice)
+        if (device instanceof LargeDevice) {
             if (((LargeDevice) device).getVolume() + this.totalTakenVolume > VOLUME_LIMIT)
                 return;
             else {
                 this.totalTakenVolume += ((LargeDevice) device).getVolume();
             }
+        }
+
         devices.add(device);
     }
 
@@ -34,25 +36,16 @@ public class House {
         return devices;
     }
 
-    //REFACTOR!!!!!
     public void turnOnDeviceByIndex(int deviceIndex) {
-        for (int i = 0; i < sockets.size(); i++) {
-            if(sockets.get(i).connectDevice(devices.get(deviceIndex))) {
+        for (Socket socket : sockets)
+            if (socket.connectDevice(devices.get(deviceIndex)))
                 break;
-            }
-        }
     }
 
     public void turnOffDeviceByIndex(int deviceIndex) {
-        for (Socket socket: sockets) {
-            for (Device pluggedDevice : socket.getPluggedDevices()) {
-                if(pluggedDevice.equals(devices.get(deviceIndex))) {
-                    socket.disconnectDevice(pluggedDevice);
-                }
-                    //System.out.println("TRUEEEEEE");
-                    //socket.getPluggedDevices().remove(pluggedDevice);
-            }
-        }
+        for (Socket socket : sockets)
+            if (socket.getPluggedDevices().contains(devices.get(deviceIndex)))
+                socket.disconnectDevice(devices.get(deviceIndex));
     }
 
     public List<Device> getPoweredOnDevices() {
@@ -73,21 +66,19 @@ public class House {
 
     public List<Device> getDevicesByManufacturers(Manufacturer ... manufacturers) {
         List<Device> devicesByManufacturers = new ArrayList<>();
-        for (Device device : this.devices) {
-            for (Manufacturer manufacturer: manufacturers) {
+        for (Device device : this.devices)
+            for (Manufacturer manufacturer: manufacturers)
                 if (device.getManufacturer() == manufacturer)
                     devicesByManufacturers.add(device);
-            }
-        }
 
         return devicesByManufacturers;
     }
 
     public int getDevicesActiveConsumption() {
         int totalActiveConsumption = 0;
-        for (Socket socket : sockets) {
+        for (Socket socket : sockets)
             totalActiveConsumption += socket.getTotalConsumption();
-        }
+
         return totalActiveConsumption;
     }
 

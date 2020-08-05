@@ -26,13 +26,21 @@ public class Runner {
 
         printHouseStatistics(house);
         printDevicesSortedByConsumption(house);
-        printDevicesByManufacturers(house);
+
+        //indexes of previously sorted list!!!
+        house.turnOnDeviceByIndex(0); //will be ignored: controller is wireless(on batteries)
         house.turnOnDeviceByIndex(1);
-        house.turnOnDeviceByIndex(1); //will be ignored
         house.turnOnDeviceByIndex(2);
+        house.turnOnDeviceByIndex(1); //will be ignored: already added
+        house.turnOnDeviceByIndex(6);
+        house.turnOnDeviceByIndex(5); //will be ignored: not enough energy in any available socket
         printPoweredOnDevices(house);
-        house.turnOffDeviceByIndex(1);
+
+        house.turnOffDeviceByIndex(3); //will be ignored: not found in pluggedDevices lists
+        house.turnOffDeviceByIndex(2);
         printPoweredOnDevices(house);
+
+        printDevicesByManufacturers(house);
         printHouseStatistics(house);
 
 
