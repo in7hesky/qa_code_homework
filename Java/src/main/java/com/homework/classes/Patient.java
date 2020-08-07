@@ -1,5 +1,7 @@
 package com.homework.classes;
 
+import java.util.Objects;
+
 public class Patient {
     private static int patientsIdCounter = 0;
 
@@ -103,6 +105,26 @@ public class Patient {
 
     public void setHomeAddress(String homeAddress) {
         this.homeAddress = homeAddress;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Patient patient = (Patient) o;
+        return id == patient.id &&
+                medicalCardNumber == patient.medicalCardNumber &&
+                Objects.equals(name, patient.name) &&
+                Objects.equals(middleName, patient.middleName) &&
+                Objects.equals(surname, patient.surname) &&
+                Objects.equals(homeAddress, patient.homeAddress) &&
+                Objects.equals(phoneNumber, patient.phoneNumber) &&
+                Objects.equals(diagnosis, patient.diagnosis);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, medicalCardNumber, name, middleName, surname, homeAddress, phoneNumber, diagnosis);
     }
 
     @Override

@@ -5,12 +5,16 @@ import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 // ------------ УСЛОВИЕ ------------
+//Создать классы, спецификации которых приведены ниже. Определить конструкторы и методы setТип(), getТип(), toString().
+// Определить дополнительно методы в классе, создающем массив объектов.
+// Задать критерий выбора данных и вывести эти данные на консоль.
+// В каждом классе, обладающем информацией, должно быть объявлено несколько конструкторов.
 //3. Patient: id, Фамилия, Имя, Отчество, Адрес, Телефон, Номер медицинской карты, Диагноз.
 //Создать массив объектов. Вывести:
 //a) список пациентов, имеющих данный диагноз;
 //b) список пациентов, номер медицинской карты которых находится в заданном интервале.
 
-public class Engine {
+public class Runner {
     private static ArrayList<Patient> patientsList = new ArrayList<>();
 
     static {
@@ -46,10 +50,10 @@ public class Engine {
         try {
             switch (menuChoice.nextInt()) {
                 case 1:
-                    printByDiagnosis();
+                    printPatientsByDiagnosis();
                     return true;
                 case 2:
-                    printByMedicalCardRange();
+                    printPatientsByMedicalCardRange();
                     return true;
                 case 3:
                     return false;
@@ -65,7 +69,7 @@ public class Engine {
 
     }
 
-    private static void printByDiagnosis() {
+    private static void printPatientsByDiagnosis() {
         String [] uniqueConditions = getUniqueConditionsArray();
 
         System.out.println("CHOOSE FROM AVAILABLE CONDITIONS:");
@@ -77,7 +81,7 @@ public class Engine {
         try {
             int conditionChoice = new Scanner(System.in).nextInt();
             chosenConditionName = uniqueConditions[conditionChoice - 1];
-        } catch (Exception e) {
+        } catch (InputMismatchException e) {
             System.out.println("Wrong input.");
             return;
         }
@@ -100,10 +104,10 @@ public class Engine {
         return uniqueConditions;
     }
 
-    private static void printByMedicalCardRange() {
+    private static void printPatientsByMedicalCardRange() {
         System.out.println("AVAILABLE MEDCARD NUMBERS\n[FOR THE FEATURE TESTING CONVENIENCE]: ");
-        for (Patient p: patientsList) {
-            System.out.println(p.getMedicalCardNumber());
+        for (Patient patient: patientsList) {
+            System.out.println(patient.getMedicalCardNumber());
         }
         Scanner userInput = new Scanner(System.in);
         int lowerBound;
@@ -118,10 +122,10 @@ public class Engine {
             return;
         }
 
-        for (Patient p: patientsList) {
-            if (p.getMedicalCardNumber() >= lowerBound &&
-                    p.getMedicalCardNumber() <= upperBound ) {
-                printPatientInfo(p);
+        for (Patient patient: patientsList) {
+            if (patient.getMedicalCardNumber() >= lowerBound &&
+                    patient.getMedicalCardNumber() <= upperBound ) {
+                printPatientInfo(patient);
             }
         }
     }

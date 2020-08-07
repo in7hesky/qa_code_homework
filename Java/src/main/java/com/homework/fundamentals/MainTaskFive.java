@@ -17,7 +17,7 @@ public class MainTaskFive {
             monthNumInput = input.nextInt();
         } catch (InputMismatchException e) {
             System.out.println("Integer required.");
-            exit(2);
+            return;
         }
 
         String guessResult;

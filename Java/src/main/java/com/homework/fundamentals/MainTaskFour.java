@@ -7,7 +7,6 @@ public class MainTaskFour {
         int argsSum = 0;
         int argsProduct = 0;
 
-        //getting copied int args[]
         int[] intArgs = new int[args.length];
         for (int i = 0; i < args.length; i++) {
             intArgs[i] = Integer.parseInt(args[i]);
