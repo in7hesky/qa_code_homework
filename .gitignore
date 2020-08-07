@@ -1,5 +1,5 @@
 .*
 !.gitignore
-Java/target/
+target
 *.iml
 *.class
