@@ -1,5 +1,5 @@
 package com.homework.exceptions.university;
 
-public enum Subjects {
+public enum Subject {
     OOP, AUTOMATION, DATABASES
 }

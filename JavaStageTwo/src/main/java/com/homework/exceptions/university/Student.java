@@ -5,18 +5,26 @@ import com.homework.exceptions.Pair;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Student {
-    private final Map<Subjects, Integer> subjectsGrades = new EnumMap<>(Subjects.class);
+    private final Map<Subject, Integer> subjectsGrades = new EnumMap<>(Subject.class);
 
-    Student(Pair<Subjects, Integer>[] subjectsGrades) {
-        for (Pair<Subjects, Integer> pair: subjectsGrades) {
+    Student(Pair<Subject, Integer>[] subjectsGrades) {
+        for (Pair<Subject, Integer> pair: subjectsGrades) {
             this.subjectsGrades.put(pair.getFirst(), pair.getSecond());
         }
     }
 
-    public int getGradeForSubject(Subjects subject) {
-        return this.subjectsGrades.get(subject);
+    public boolean hasSubject(Subject subject) {
+        return subjectsGrades.get(subject) != null;
+    }
+
+    public int getGradeForSubjectIfExists(Subject subject) {
+        if (subjectsGrades.get(subject) != null)
+            return this.subjectsGrades.get(subject);
+
+        return -1;
     }
 
     public double getAverageGrade() {
@@ -25,5 +33,18 @@ public class Student {
             gradesSum += grade;
 
         return (double) gradesSum / this.subjectsGrades.values().size();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(subjectsGrades, student.subjectsGrades);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(subjectsGrades);
     }
 }
