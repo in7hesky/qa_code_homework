@@ -1,0 +1,9 @@
+[test2]
+	[test2_1]
+		test21_1.txt
+		test21_2.txt
+		test21_3.txt
+		[test2_2]
+			test22_1.txt
+	test2_1.txt
+	test2_2.txt
