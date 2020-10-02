@@ -45,12 +45,13 @@ public class TreeProcessor {
 
     private void setFoldersAndFilesAmount() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE))) {
-            String line;
-            while ( (line = bufferedReader.readLine()) != null)
-                if (line.contains("["))
+            bufferedReader.lines().forEach(line -> {
+                if(line.contains("[")) {
                     this.foldersAmount++;
-                else
+                } else {
                     this.filesAmount++;
+                }
+            });
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

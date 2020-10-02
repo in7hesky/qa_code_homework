@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 //1.     Создать и заполнить файл случайными целыми числами. Отсортировать содержимое файла по возрастанию.
 public class OptTaskOne {
@@ -31,14 +32,13 @@ public class OptTaskOne {
     }
 
     public static void sortNumbersInFile() {
-        List<Integer> numbersFromFile = new ArrayList<>();
+        List<Integer> numbersFromFile;
 
         try ( BufferedReader bufferedReader = new BufferedReader(new FileReader(PATHNAME))) {
-            String number;
-            while ((number = bufferedReader.readLine()) != null)
-                numbersFromFile.add(Integer.parseInt(number));
+            numbersFromFile = bufferedReader.lines().map(Integer::parseInt).collect(Collectors.toList());
         } catch (IOException e) {
-            e.printStackTrace();            return;
+            e.printStackTrace();
+            return;
         }
 
         numbersFromFile.sort(Integer::compareTo);
