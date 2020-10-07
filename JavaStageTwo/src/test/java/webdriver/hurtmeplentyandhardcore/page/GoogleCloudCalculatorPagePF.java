@@ -7,8 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import webdriver.AbstractPage;
 
-import java.time.Duration;
-import java.time.temporal.TemporalUnit;
+
 import java.util.List;
 
 public class GoogleCloudCalculatorPagePF extends AbstractPage {
@@ -37,6 +36,9 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
     @FindBy (id = "select_value_label_59")
     private WebElement dataCenterLocationField;
 
+    @FindBy (id = "select_value_label_60")
+    private WebElement commitedUsageTerminField;
+
     private WebDriverWait wait;
 
     public GoogleCloudCalculatorPagePF(WebDriver driver) {
@@ -47,9 +49,10 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
 
     public GoogleCloudCalculatorPagePF setMachineType(String typeValue) {
         machineTypeField.click();
-        WebElement desiredMachineTypeOption = driver.findElement(By.xpath("//md-option[@value='" + typeValue + "']"));
+        WebElement desiredMachineTypeOption = driver.findElement(getOptionSelector(typeValue));
         wait.until(ExpectedConditions.elementToBeClickable(desiredMachineTypeOption));
-        scrollTo(desiredMachineTypeOption).click();
+
+        desiredMachineTypeOption.click();
         wait.until(ExpectedConditions.invisibilityOf(desiredMachineTypeOption));
         return this;
     }
@@ -63,7 +66,8 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
     public GoogleCloudCalculatorPagePF addGPU(int gpuAmount, String typeValue) {
         addGPUCheckbox.click();
 
-        scrollTo(numberOfGPUsField).click();
+
+        numberOfGPUsField.click();
         WebElement numberOfGPUsMenu = driver.switchTo().activeElement();
         wait.until(ExpectedConditions.visibilityOf(numberOfGPUsMenu));
         new Actions(driver).sendKeys(Integer.toString(gpuAmount))
@@ -72,7 +76,7 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
         gpuTypeField.click();
         driver.switchTo().activeElement();
 
-        By xpathForGpuType = By.xpath("//md-option[@value='" + typeValue+ "']");
+        By xpathForGpuType = getOptionSelector(typeValue);
         wait.until(ExpectedConditions.elementToBeClickable(xpathForGpuType));
         driver.findElement(xpathForGpuType).click();
 
@@ -95,7 +99,8 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
         WebElement locationsMenu = driver.switchTo().activeElement();
         wait.until(ExpectedConditions.visibilityOf(locationsMenu));
 
-        List <WebElement> matchedResults = driver.findElements(By.xpath("//md-option[@value='" + locationValue + "']"));
+        List <WebElement> matchedResults = driver.findElements(getOptionSelector(locationValue));
+
         for (WebElement match: matchedResults) {
             if (match.getText().toLowerCase().contains("(")) {
                 match.click();
@@ -107,9 +112,26 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
         return this;
     }
 
-    private WebElement scrollTo(WebElement webElement) {
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", webElement);
-        return webElement;
+    public GoogleCloudCalculatorPagePF setCommitedUsageInYears(int yearsAmount) {
+        commitedUsageTerminField.click();
+        WebElement usageMenu = driver.switchTo().activeElement();
+        wait.until(ExpectedConditions.visibilityOf(usageMenu));
+
+        WebElement targetOption = null;
+        for (WebElement option : driver.findElements(getOptionSelector(Integer.toString(yearsAmount)))) {
+            if (option.getText().toLowerCase().contains("year")) {
+                targetOption = option;
+            }
+        }
+        assert targetOption != null;
+        targetOption.click();
+        wait.until(ExpectedConditions.invisibilityOf(targetOption));
+
+        return this;
+    }
+
+    private By getOptionSelector(String value) {
+        return By.xpath("//md-option[@value='" + value + "']");
     }
 
     @Override

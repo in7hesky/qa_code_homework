@@ -16,6 +16,7 @@ public class GoogleCloudCalculatorTest {
     private static final int NUMBER_OF_INSTANCES = 4;
     private static final int SSD_AMOUNT = 2;
     private static final int GPU_AMOUNT = 1;
+    private static final int COMMITED_USAGE_YEARS = 1;
     private static final String GPU_TYPE_VALUE = "NVIDIA_TESLA_V100";
     private static final String MACHINE_TYPE_VALUE = "CP-COMPUTEENGINE-VMIMAGE-N1-STANDARD-8";
     private static final String DATACENTER_LOCATION_VALUE = "europe-west3";
@@ -29,14 +30,16 @@ public class GoogleCloudCalculatorTest {
 
         GoogleCloudCalculatorPagePF googleCloudCalculator = new GoogleCloudHomePagePF(driver)
                 .openPage()
-                .searchFor(SEARCH_QUERY).getToCloudCalculatorPage();
+                .searchFor(SEARCH_QUERY)
+                .getToCloudCalculatorPage();
 
         googleCloudCalculator
                 .setNumberOfInstances(NUMBER_OF_INSTANCES)
                 .setMachineType(MACHINE_TYPE_VALUE)
                 .addGPU(GPU_AMOUNT, GPU_TYPE_VALUE)
                 .setSSDAmount(SSD_AMOUNT)
-                .setDataCenterLocation(DATACENTER_LOCATION_VALUE);
+                .setDataCenterLocation(DATACENTER_LOCATION_VALUE)
+                .setCommitedUsageInYears(COMMITED_USAGE_YEARS);
     }
 
     @Test
@@ -48,7 +51,7 @@ public class GoogleCloudCalculatorTest {
     @AfterClass(alwaysRun = true)
     public void closeBrowser() throws InterruptedException {
         Thread.sleep(7000);
-        driver.quit();
+        //driver.quit();
         driver = null;
     }
 }
