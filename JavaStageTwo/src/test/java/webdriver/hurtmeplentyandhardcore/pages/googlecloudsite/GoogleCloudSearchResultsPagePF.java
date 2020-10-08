@@ -1,4 +1,4 @@
-package webdriver.hurtmeplentyandhardcore.page;
+package webdriver.hurtmeplentyandhardcore.pages.googlecloudsite;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

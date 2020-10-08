@@ -1,4 +1,4 @@
-package webdriver.hurtmeplentyandhardcore.page;
+package webdriver.hurtmeplentyandhardcore.pages.googlecloudsite;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -39,6 +39,12 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
     @FindBy (id = "select_value_label_60")
     private WebElement commitedUsageTerminField;
 
+    @FindBy (xpath = "(//button[@class='md-raised md-primary cpc-button md-button md-ink-ripple'])[1]")
+    private WebElement submitButton;
+
+    @FindBy(id = "compute")
+    private WebElement calculatedResultsBlock;
+
     private WebDriverWait wait;
 
     public GoogleCloudCalculatorPagePF(WebDriver driver) {
@@ -74,8 +80,9 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
                 .sendKeys(Keys.ENTER).perform();
 
         gpuTypeField.click();
-        driver.switchTo().activeElement();
+        driver.switchTo().activeElement();//
 
+        //FIX
         By xpathForGpuType = getOptionSelector(typeValue);
         wait.until(ExpectedConditions.elementToBeClickable(xpathForGpuType));
         driver.findElement(xpathForGpuType).click();
@@ -90,7 +97,7 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
         wait.until(ExpectedConditions.visibilityOf(ssdAmountMenu));
         new Actions(driver).sendKeys(Integer.toString(ssdAmount))
                 .sendKeys(Keys.ENTER).perform();
-        wait.until(ExpectedConditions.invisibilityOf(ssdAmountMenu));
+        wait.until(ExpectedConditions.elementToBeClickable(dataCenterLocationField));
         return this;
     }
 
@@ -100,9 +107,9 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
         wait.until(ExpectedConditions.visibilityOf(locationsMenu));
 
         List <WebElement> matchedResults = driver.findElements(getOptionSelector(locationValue));
-
+        //FIX IT
         for (WebElement match: matchedResults) {
-            if (match.getText().toLowerCase().contains("(")) {
+            if (match.getText().contains("(")) {
                 match.click();
                 break;
             }
@@ -117,6 +124,7 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
         WebElement usageMenu = driver.switchTo().activeElement();
         wait.until(ExpectedConditions.visibilityOf(usageMenu));
 
+        //FIX IT
         WebElement targetOption = null;
         for (WebElement option : driver.findElements(getOptionSelector(Integer.toString(yearsAmount)))) {
             if (option.getText().toLowerCase().contains("year")) {
@@ -128,6 +136,13 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
         wait.until(ExpectedConditions.invisibilityOf(targetOption));
 
         return this;
+    }
+
+    public GoogleCloudCalcucatorResultsPagePF calculateResults() {
+        submitButton.click();
+        wait.until(ExpectedConditions.visibilityOf(calculatedResultsBlock));
+
+        return new GoogleCloudCalcucatorResultsPagePF(driver);
     }
 
     private By getOptionSelector(String value) {

@@ -2,57 +2,124 @@ package webdriver.hurtmeplentyandhardcore.test;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import webdriver.hurtmeplentyandhardcore.page.GoogleCloudCalculatorPagePF;
-import webdriver.hurtmeplentyandhardcore.page.GoogleCloudHomePagePF;
+import webdriver.hurtmeplentyandhardcore.pages.googlecloudsite.GoogleCloudCalcucatorResultsPagePF;
+import webdriver.hurtmeplentyandhardcore.pages.googlecloudsite.GoogleCloudCalculatorPagePF;
+import webdriver.hurtmeplentyandhardcore.pages.googlecloudsite.GoogleCloudHomePagePF;
+import webdriver.hurtmeplentyandhardcore.pages.tenminutemail.TenMinuteHomePagePF;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 
 public class GoogleCloudCalculatorTest {
 
     private static final String SEARCH_QUERY = "Google Cloud Platform Pricing Calculator";
 
-    private static final int NUMBER_OF_INSTANCES = 4;
-    private static final int SSD_AMOUNT = 2;
-    private static final int GPU_AMOUNT = 1;
-    private static final int COMMITED_USAGE_YEARS = 1;
-    private static final String GPU_TYPE_VALUE = "NVIDIA_TESLA_V100";
-    private static final String MACHINE_TYPE_VALUE = "CP-COMPUTEENGINE-VMIMAGE-N1-STANDARD-8";
-    private static final String DATACENTER_LOCATION_VALUE = "europe-west3";
+    private int numberOfInstances;
+    private int ssdAmount;
+    private int gpuAmount;
+    private int commitedUsageYears;
+    private String gpuTypeValue;
+    private String machineTypeValue;
+    private String datacenterLocationValue;
+    private String expectedCost;
 
     private WebDriver driver;
+    private GoogleCloudCalcucatorResultsPagePF calculatorResultsPage;
+    {
+        initializeArgumentsByFile();
+    }
 
     @BeforeClass(alwaysRun = true)
     public void setupCalculatorPage() {
         this.driver = new ChromeDriver();
         driver.manage().window().maximize();
-
         GoogleCloudCalculatorPagePF googleCloudCalculator = new GoogleCloudHomePagePF(driver)
                 .openPage()
                 .searchFor(SEARCH_QUERY)
                 .getToCloudCalculatorPage();
 
-        googleCloudCalculator
-                .setNumberOfInstances(NUMBER_OF_INSTANCES)
-                .setMachineType(MACHINE_TYPE_VALUE)
-                .addGPU(GPU_AMOUNT, GPU_TYPE_VALUE)
-                .setSSDAmount(SSD_AMOUNT)
-                .setDataCenterLocation(DATACENTER_LOCATION_VALUE)
-                .setCommitedUsageInYears(COMMITED_USAGE_YEARS);
+        this.calculatorResultsPage = inputTestValues(googleCloudCalculator);
+
+
+        TenMinuteHomePagePF tenMinuteHomePagePF = new TenMinuteHomePagePF(driver).openPage();
     }
 
     @Test
-    public void test() throws InterruptedException {
-
+    public void chosenNumberOfInstancesIsCorrect() {
+        Assert.assertEquals(numberOfInstances, calculatorResultsPage.getChosenNumberOfInstances());
     }
 
+    @Test
+    public void chosenVMClassIsCorrect() {
+        Assert.assertEquals(calculatorResultsPage.getChosenVMClass().toLowerCase(), "Regular".toLowerCase());
+    }
+
+    @Test
+    public void chosenInstanceTypeIsCorrect() {
+        Assert.assertEquals(calculatorResultsPage.getChosenInstanceType(), "n1-standard-8");
+    }
+
+    @Test
+    public void chosenRegionIsCorrect() {
+        Assert.assertEquals(calculatorResultsPage.getChosenRegion().toLowerCase(), "Frankfurt".toLowerCase());
+    }
+
+    @Test
+    public void chosenSSDAmountIsCorrect() {
+        Assert.assertEquals(calculatorResultsPage.getChosenSSDAmount(), ssdAmount);
+    }
+
+    @Test
+    public void chosenCommitmentTermInYearsIsCorrect() {
+        Assert.assertEquals(calculatorResultsPage.getChosenCommitmentTermInYears(), commitedUsageYears);
+    }
+
+    @Test
+    public void estimatedCostAsExpected() {
+        Assert.assertEquals(calculatorResultsPage.getEstimatedCost().replace(",", ""), expectedCost);
+    }
 
     @AfterClass(alwaysRun = true)
     public void closeBrowser() throws InterruptedException {
-        Thread.sleep(7000);
         //driver.quit();
         driver = null;
+    }
+
+    private GoogleCloudCalcucatorResultsPagePF inputTestValues(GoogleCloudCalculatorPagePF calculator) {
+        return calculator
+                .setNumberOfInstances(numberOfInstances)
+                .setMachineType(machineTypeValue)
+                .addGPU(gpuAmount, gpuTypeValue)
+                .setSSDAmount(ssdAmount)
+                .setDataCenterLocation(datacenterLocationValue)
+                .setCommitedUsageInYears(commitedUsageYears)
+                .calculateResults();
+    }
+
+    private void initializeArgumentsByFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(
+                "src/test/java/webdriver/hurtmeplentyandhardcore/test/inputData.csv"))) {
+            String[] testValues = reader.readLine().split(",");
+            numberOfInstances = Integer.parseInt(testValues[0]);
+            ssdAmount = Integer.parseInt(testValues[1]);
+            gpuAmount = Integer.parseInt(testValues[2]);
+            commitedUsageYears = Integer.parseInt(testValues[3]);
+            gpuTypeValue = testValues[4];
+            machineTypeValue = testValues[5];
+            datacenterLocationValue = testValues[6];
+            expectedCost = testValues[7];
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } ;
     }
 }
 

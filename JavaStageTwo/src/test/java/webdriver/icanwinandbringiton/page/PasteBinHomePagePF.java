@@ -33,6 +33,9 @@ public class PasteBinHomePagePF extends AbstractPage {
     @FindBy(css = "button.btn.-big")
     private WebElement submitButton;
 
+    @FindBy (className = "top-buttons")
+    private WebElement PostPageElement;
+
     private static final String expirationListSelector = "//ul[@role='listbox']";
     private static final String highlightingListSelector = "//*[@id='select2-postform-format-results']/li[2]/ul";
     private static final String HOMEPAGE_URL = "http://pastebin.com/";
@@ -90,7 +93,7 @@ public class PasteBinHomePagePF extends AbstractPage {
     public PasteBinPostPagePF submitPost() {
         submitButton.click();
         try {
-            wait.until(ExpectedConditions.stalenessOf(textArea));
+            wait.until(ExpectedConditions.visibilityOf(PostPageElement));
         } catch (Exception e) {
             return null;
         }

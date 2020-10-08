@@ -37,7 +37,6 @@ public class PasteBinHighlightedTest {
         pasteBinPostPagePF = pasteBinHomePagePF.submitPost();
     }
 
-
     @Test
     public void correctFormattingIsApplied() {
         Assert.assertTrue(pasteBinPostPagePF.getHighlightFormatting().toLowerCase()
@@ -45,9 +44,7 @@ public class PasteBinHighlightedTest {
     }
 
     @Test
-    public void savedTextIsCorrect() {
-        Assert.assertEquals(CODE_SNIPPET, pasteBinPostPagePF.getSavedText());
-    }
+    public void savedTextIsCorrect(){ Assert.assertEquals(CODE_SNIPPET, pasteBinPostPagePF.getSavedText()); }
 
     @Test
     public void postTitleIsCorrect() {
