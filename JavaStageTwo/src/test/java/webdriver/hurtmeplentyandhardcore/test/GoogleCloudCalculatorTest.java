@@ -30,6 +30,8 @@ public class GoogleCloudCalculatorTest {
     private String datacenterLocationValue;
     private String expectedCost;
 
+    private String costViaEmail;
+
     private WebDriver driver;
     private GoogleCloudCalcucatorResultsPagePF calculatorResultsPage;
     {
@@ -37,7 +39,7 @@ public class GoogleCloudCalculatorTest {
     }
 
     @BeforeClass(alwaysRun = true)
-    public void setupCalculatorPage() {
+    public void setupCalculatorPage() throws InterruptedException {
         this.driver = new ChromeDriver();
         driver.manage().window().maximize();
         GoogleCloudCalculatorPagePF googleCloudCalculator = new GoogleCloudHomePagePF(driver)
@@ -46,9 +48,16 @@ public class GoogleCloudCalculatorTest {
                 .getToCloudCalculatorPage();
 
         this.calculatorResultsPage = inputTestValues(googleCloudCalculator);
-
-
         TenMinuteHomePagePF tenMinuteHomePagePF = new TenMinuteHomePagePF(driver).openPage();
+        tenMinuteHomePagePF.copyEmailAddress();
+        calculatorResultsPage.sendResultsToCopiedEmail();
+        costViaEmail = tenMinuteHomePagePF.getReceivedCost();
+        calculatorResultsPage.refocusOnResultsFrame();
+    }
+
+    @Test
+    public void costViaEmailIsCorrect() {
+        Assert.assertEquals(costViaEmail.replace(",", ""), expectedCost);
     }
 
     @Test
