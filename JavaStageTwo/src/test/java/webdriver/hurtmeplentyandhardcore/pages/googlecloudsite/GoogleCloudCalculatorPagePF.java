@@ -11,6 +11,8 @@ import webdriver.AbstractPage;
 import java.util.List;
 
 public class GoogleCloudCalculatorPagePF extends AbstractPage {
+    @FindBy (xpath = "//*[@id='cloud-site']/devsite-iframe/iframe")
+    private WebElement calculatorFrame;
 
     @FindBy (id = "myFrame")
     private WebElement inputFrame;
@@ -49,6 +51,8 @@ public class GoogleCloudCalculatorPagePF extends AbstractPage {
 
     public GoogleCloudCalculatorPagePF(WebDriver driver) {
         super(driver);
+        new WebDriverWait(driver, 12)
+                .until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(calculatorFrame));
         driver.switchTo().frame(inputFrame);
         this.wait = new WebDriverWait(driver, 4);
     }

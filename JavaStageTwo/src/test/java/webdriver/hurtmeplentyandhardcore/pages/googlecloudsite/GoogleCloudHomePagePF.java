@@ -10,8 +10,6 @@ public class GoogleCloudHomePagePF extends AbstractPage {
 
     @FindBy (className = "devsite-search-field")
     private WebElement searchField;
-    @FindBy (xpath = "//a[@class='gs-title']/b")
-    private WebElement searchResults;
 
     private static final String HOMEPAGE_URL = "https://cloud.google.com/";
 
@@ -23,8 +21,7 @@ public class GoogleCloudHomePagePF extends AbstractPage {
         searchField.click();
         searchField.sendKeys(query);
         searchField.submit();
-        wait.until(ExpectedConditions.visibilityOf(searchResults));
-        return new GoogleCloudSearchResultsPagePF(this.driver);
+        return new GoogleCloudSearchResultsPagePF(driver);
     }
 
     @Override
