@@ -1,6 +1,7 @@
 package webdriver.icanwinandbringiton.page;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -85,12 +86,16 @@ public class PasteBinHomePagePF extends AbstractPage {
     }
 
     public PasteBinHomePagePF inputTextName(String name) {
+        driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL, Keys.END); //added to avoid clicking
+        wait.until(ExpectedConditions.visibilityOf(textNameField));                   //on the banner
+
         textNameField.click();
         textNameField.sendKeys(name);
         return this;
     }
 
     public PasteBinPostPagePF submitPost() {
+
         submitButton.click();
         try {
             wait.until(ExpectedConditions.visibilityOf(PostPageElement));

@@ -4,6 +4,7 @@ import com.homework.exceptions.university.Subject;
 import com.homework.exceptions.university.University;
 import com.homework.exceptions.university.exceptions.*;
 
+// Реализовать заданный функционал с использованием минимум пяти собственных типов ошибок
 
 public class Runner {
     public static void main(String[] args) throws NoFacultiesAtUniversityException  {
